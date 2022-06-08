@@ -3,150 +3,79 @@ import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.json.JSONObject;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runner.OrderWith;
+import org.junit.runners.MethodSorters;
 
 import java.io.File;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.Assert.*;
 
+@FixMethodOrder(MethodSorters.JVM)
 public class AuthenticationTest {
 
     public static Response response;
     public static String status;
     public static String codeAuthentication;
+    public static String accessToken;
+
 
     @Test
     @DisplayName("При запросе кода статус код 200")
     @Description("")
-    public void getAuthenticationCode() {
-    //    File json = new File("src/test/resources/email.json");
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("email", "nik1@testmail.test");
-        response = given().log().all()
-                .baseUri(Endpoints.URL)
-                .header("Content-type", "application/json")
-                .header("n-build", "4.43.0")
-                .header("n-device", "emulator")
-                .header("n-device-id", "123")
-                .body(jsonObject.toMap())
-                .when().log().all()
-                .post(Endpoints.AUTHENTICAUTION_SEND_CODE_URL);
-        assertEquals(200, response.statusCode());
-       // assertNull(response.jsonPath());
-      // status = response.path("ok");
+    public void getAuthenticationCode200() {
+        Autentication autentication=new Autentication();
+        autentication.getAuthenticationCode();
+        assertEquals(200, autentication.response.statusCode());
+        assertNotNull(autentication.response.jsonPath());
     }
 
     @Test
-    @DisplayName("Получение кода аутентификации")
+    @DisplayName("При получении кода аутентификации статус код 200")
     @Description("")
-    public void getAuthentication() {
-        //    File json = new File("src/test/resources/email.json");
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("email", "nik1@testmail.test");
-        jsonObject.put("code", "111111");
-        jsonObject.put("code_challenge", "kqU8naFQSp6ANPs45HRzPNMVv7pHPWu462pamEmDlxw=");
-        jsonObject.put("code_challenge_method", "sha256");
-        response = given().log().all()
-                .baseUri(Endpoints.URL)
-                .header("Content-type", "application/json")
-                .header("n-build", "4.43.0")
-                .header("n-device", "emulator")
-                .header("n-device-id", "123")
-                .body(jsonObject.toMap())
-                .when().log().all()
-                .post(Endpoints.AUTHENTICAUTION_AUTHENTICATE_URL);
-        assertEquals(200, response.statusCode());
-        assertNotNull(response.jsonPath());
-        codeAuthentication = response.path("code_authentication");
-    }
-
-
-/*
-    private int courierId;
-    private CourierClient courierClient;
-
-    @Before
-    public void setUp() {
-        courierClient = new CourierClient();
-
+    public void getAuthentication200() {
+        Autentication autentication=new Autentication();
+        autentication.getAuthenticationCode();
+        autentication.getAuthentication();
+        assertEquals(200, autentication.response.statusCode());
     }
 
     @Test
-    @DisplayName("Авторизация с рандомными кредами /api/v1/courier/login")
-    @Description("Курьер может авторизоваться;\n" +
-            "Успешный запрос возвращает id;\n")
-    public void courierLogin() {
-        //создать курьера
-        Courier courier = Courier.getRandom();
-        courierClient.create(courier);
-        //авторизоваться для получения id
-        CourierCredentials creds = CourierCredentials.from(courier);
-        courierClient.login(creds);
-        //проверить, что возвращается статус код 200
-        assertEquals(CourierClient.response.statusCode(), 200);
-        //проверить, что возвращается id
-        assertNotEquals(0, courierClient.courierId);
-        //удалить курьера
-        courierClient.delete(courierClient.courierId);
+    @DisplayName("Код аутентификации получен")
+    @Description("")
+    public void getAuthenticationCodeAuthentication() {
+        Autentication autentication=new Autentication();
+        autentication.getAuthenticationCode();
+        autentication.getAuthentication();
+        assertNotNull(autentication.response.jsonPath());
     }
 
     @Test
-    @DisplayName("Авторизация без логина /api/v1/courier/login")
-    @Description("Для авторизации нужно передать все обязательные поля;\n" +
-            "Если какого-то поля нет, запрос возвращает ошибку;\n")
-    public void courierLoginWithoutLogin() {
-        //дернуть ручку с конструктором, в котором одно обязательное поле
-        CourierCredentials creds = new CourierCredentials("", "Segen0123");
-        courierClient.loginWithWrong(creds);
-        //проверить, что возвращается статус код 400
-        assertEquals(CourierClient.response.statusCode(), 400);
-        //проверить, что возвращается текст ошибки
-        assertEquals(CourierClient.keysValue, "Недостаточно данных для входа");
+    @DisplayName("При запросе токена статус код 200")
+    @Description("")
+    public void getTokenStatusCode200() {
+        Autentication autentication=new Autentication();
+        autentication.getAuthenticationCode();
+        autentication.getAuthentication();
+        autentication.codeAuthentication = autentication.response.path("code_authentication");
+        autentication.getToken();
+        assertEquals(200, autentication.response.statusCode());
     }
 
     @Test
-    @DisplayName("Авторизация без пароля /api/v1/courier/login")
-    @Description("Для авторизации нужно передать все обязательные поля;\n" +
-            "Если какого-то поля нет, запрос возвращает ошибку;\n")
-    public void courierLoginWithoutPassword() {
-        //дернуть ручку с конструктором, в котором одно обязательное поле
-        CourierCredentials creds = new CourierCredentials("Segen0123", "");
-        courierClient.loginWithWrong(creds);
-        //проверить, что возвращается статус код 400
-        assertEquals(CourierClient.response.statusCode(), 400);
-        //проверить, что возвращается текст ошибки
-        assertEquals(CourierClient.keysValue, "Недостаточно данных для входа");
+    @DisplayName("При запросе токена приходит аксес токен")
+    @Description("")
+    public void getAccessToken(){
+        Autentication autentication=new Autentication();
+        autentication.getAuthenticationCode();
+        autentication.getAuthentication();
+        autentication.codeAuthentication = autentication.response.path("code_authentication");
+        autentication.getToken();
+        assertNotNull(autentication.response.jsonPath());
+      //  accessToken = autentication.response.path("access_token");
     }
-
-    @Test
-    @DisplayName("Авторизация без логина и пароля /api/v1/courier/login")
-    @Description("Для авторизации нужно передать все обязательные поля;\n" +
-            "Если какого-то поля нет, запрос возвращает ошибку;\n")
-    public void courierLoginWithoutLoginAndPassword() {
-        //дернуть ручку с конструктором, в котором одно обязательное поле
-        CourierCredentials creds = new CourierCredentials("", "");
-        courierClient.loginWithWrong(creds);
-        //проверить, что возвращается статус код 400
-        assertEquals(CourierClient.response.statusCode(), 400);
-        //проверить, что возвращается текст ошибки
-        assertEquals(CourierClient.keysValue, "Недостаточно данных для входа");
-    }
-
-    @Test
-    @DisplayName("Авторизация с несуществующими кредами")
-    @Description("Система вернёт ошибку, если неправильно указать логин или пароль;\n" +
-            "Если авторизоваться под несуществующим пользователем, запрос возвращает ошибку;\n")
-    public void courierLoginWithWrongCreds() {
-        //указать несуществующие логин и пароль
-        CourierCredentials creds = new CourierCredentials("Segen0123", "Segen0123");
-        courierClient.loginWithWrong(creds);
-        //проверить, что возвращается статус код 400
-        assertEquals(CourierClient.response.statusCode(), 404);
-        //проверить, что возвращается текст ошибки
-        assertEquals(CourierClient.keysValue, "Учетная запись не найдена");
-    }
-
- */
 }
