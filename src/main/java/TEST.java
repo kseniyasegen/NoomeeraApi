@@ -1,9 +1,6 @@
-
-import io.restassured.response.Response;
-
 import static io.restassured.RestAssured.given;
 
-public class CourierClient {
+public class TEST {
 
   /*  public static String keysValue = null;
     public static Response response;
