@@ -19,7 +19,7 @@ public class UsersTest {
 
     @Test
     @DisplayName("При запросе информации о юзере приходит 200")
-    @Description("")
+    @Description("/v2/users/get_user_info")
     public void getUsersInfoStatusCode200(){
         Autentication autentication=new Autentication();
         autentication.getAuthenticationCode();
@@ -36,7 +36,7 @@ public class UsersTest {
 
     @Test
     @DisplayName("При запросе информации о юзере приходит непустой json")
-    @Description("")
+    @Description("/v2/users/get_user_info")
     public void getUsersInfoNotNullJson(){
         Autentication autentication=new Autentication();
         autentication.getAuthenticationCode();
@@ -53,7 +53,7 @@ public class UsersTest {
 
     @Test
     @DisplayName("При запросе информации о юзере приходит 200")
-    @Description("")
+    @Description("/v2/users/#{user_id}/get_link")
     public void getUsersLinkStatusCode200(){
         Autentication autentication=new Autentication();
         autentication.getAuthenticationCode();
@@ -68,9 +68,29 @@ public class UsersTest {
         assertEquals(200, users.response.statusCode());
     }
 
+
+
     @Test
-    @DisplayName("При запросе информации о юзере приходит непустой json")
-    @Description("")
+    @DisplayName("При запросе друзей юзера приходит 200")
+    @Description("/v2/users/friends")
+    public void getUsersFriendsStatusCode200(){
+        Autentication autentication=new Autentication();
+        autentication.getAuthenticationCode();
+        autentication.getAuthentication();
+        autentication.response.prettyPrint();
+        autentication.codeAuthentication = autentication.response.path("code_authentication");
+        autentication.getToken();
+        assertNotNull(autentication.response.jsonPath());
+        autentication.accessToken = autentication.response.path("access_token");
+        Users users = new Users();
+        users.getUserFriends();
+        assertEquals(200, users.response.statusCode());
+    }
+
+
+    @Test
+    @DisplayName("При запросе друзей юзера приходит непустой json")
+    @Description("/v2/users/friends")
     public void getUsersLinkNotNullJson(){
         Autentication autentication=new Autentication();
         autentication.getAuthenticationCode();
@@ -81,7 +101,148 @@ public class UsersTest {
         assertNotNull(autentication.response.jsonPath());
         autentication.accessToken = autentication.response.path("access_token");
         Users users = new Users();
-        users.getUserInfo();
+        users.getUserFriends();
+        users.response.prettyPrint();
+        assertNotNull(autentication.response.jsonPath());
+    }
+
+    @Test
+    @DisplayName("При запросе количества друзей юзера приходит 200")
+    @Description("/friends/get_count_friends")
+    public void getUsersCountFriendsStatusCode200(){
+        Autentication autentication=new Autentication();
+        autentication.getAuthenticationCode();
+        autentication.getAuthentication();
+        autentication.response.prettyPrint();
+        autentication.codeAuthentication = autentication.response.path("code_authentication");
+        autentication.getToken();
+        assertNotNull(autentication.response.jsonPath());
+        autentication.accessToken = autentication.response.path("access_token");
+        Users users = new Users();
+        users.getUserCountFriends();
+        assertEquals(200, users.response.statusCode());
+    }
+
+    @Test
+    @DisplayName("При запросе количества друзей юзера приходит непустой json")
+    @Description("/friends/get_count_friends")
+    public void getUsersCountFriendsNotNullJson(){
+        Autentication autentication=new Autentication();
+        autentication.getAuthenticationCode();
+        autentication.getAuthentication();
+        autentication.response.prettyPrint();
+        autentication.codeAuthentication = autentication.response.path("code_authentication");
+        autentication.getToken();
+        assertNotNull(autentication.response.jsonPath());
+        autentication.accessToken = autentication.response.path("access_token");
+        Users users = new Users();
+        users.getUserCountFriends();
+        users.response.prettyPrint();
+        assertNotNull(autentication.response.jsonPath());
+    }
+
+    @Test
+    @DisplayName("При запросе моего профиля приходит 200")
+    @Description("/v2/users/profile")
+    public void getMyProfileStatusCode200(){
+        Autentication autentication=new Autentication();
+        autentication.getAuthenticationCode();
+        autentication.getAuthentication();
+        autentication.response.prettyPrint();
+        autentication.codeAuthentication = autentication.response.path("code_authentication");
+        autentication.getToken();
+        assertNotNull(autentication.response.jsonPath());
+        autentication.accessToken = autentication.response.path("access_token");
+        Users users = new Users();
+        users.getMyProfile();
+        assertEquals(200, users.response.statusCode());
+    }
+
+    @Test
+    @DisplayName("При запросе моего профиля приходит непустой json")
+    @Description("/v2/users/profile")
+    public void getMyProfileNotNullJson(){
+        Autentication autentication=new Autentication();
+        autentication.getAuthenticationCode();
+        autentication.getAuthentication();
+        autentication.response.prettyPrint();
+        autentication.codeAuthentication = autentication.response.path("code_authentication");
+        autentication.getToken();
+        assertNotNull(autentication.response.jsonPath());
+        autentication.accessToken = autentication.response.path("access_token");
+        Users users = new Users();
+        users.getMyProfile();
+        users.response.prettyPrint();
+        assertNotNull(autentication.response.jsonPath());
+    }
+
+    @Test
+    @DisplayName("При запросе моего имейла приходит 200")
+    @Description("/v2/users/email")
+    public void getMyEmailStatusCode200(){
+        Autentication autentication=new Autentication();
+        autentication.getAuthenticationCode();
+        autentication.getAuthentication();
+        autentication.response.prettyPrint();
+        autentication.codeAuthentication = autentication.response.path("code_authentication");
+        autentication.getToken();
+        assertNotNull(autentication.response.jsonPath());
+        autentication.accessToken = autentication.response.path("access_token");
+        Users users = new Users();
+        users.getMyEmail();
+        assertEquals(200, users.response.statusCode());
+    }
+
+    @Test
+    @DisplayName("При запросе моего имейла приходит непустой json")
+    @Description("/v2/users/email")
+    public void getMyEmailNotNullJson(){
+        Autentication autentication=new Autentication();
+        autentication.getAuthenticationCode();
+        autentication.getAuthentication();
+        autentication.response.prettyPrint();
+        autentication.codeAuthentication = autentication.response.path("code_authentication");
+        autentication.getToken();
+        assertNotNull(autentication.response.jsonPath());
+        autentication.accessToken = autentication.response.path("access_token");
+        Users users = new Users();
+        users.getMyEmail();
+        users.response.prettyPrint();
+        assertNotNull(autentication.response.jsonPath());
+    }
+
+    @Test
+    @DisplayName("При запросе моего номера телефона приходит 200")
+    @Description("/v2/users/phone_number")
+    public void getMyPhoneNumberStatusCode200(){
+        Autentication autentication=new Autentication();
+        autentication.getAuthenticationCode();
+        autentication.getAuthentication();
+        autentication.response.prettyPrint();
+        autentication.codeAuthentication = autentication.response.path("code_authentication");
+        autentication.getToken();
+        assertNotNull(autentication.response.jsonPath());
+        autentication.accessToken = autentication.response.path("access_token");
+        Users users = new Users();
+        users.getMyPhoneNumber();
+        assertEquals(200, users.response.statusCode());
+    }
+
+    @Test
+    @DisplayName("При запросе моего номера телефона приходит непустой json")
+    @Description("/v2/users/phone_number")
+    public void getMyPhoneNumberNotNullJson(){
+        Autentication autentication=new Autentication();
+        autentication.getAuthenticationCode();
+        autentication.getAuthentication();
+        autentication.response.prettyPrint();
+        autentication.codeAuthentication = autentication.response.path("code_authentication");
+        autentication.getToken();
+        assertNotNull(autentication.response.jsonPath());
+        autentication.accessToken = autentication.response.path("access_token");
+        Users users = new Users();
+        users.getMyPhoneNumber();
+        users.response.prettyPrint();
         assertNotNull(autentication.response.jsonPath());
     }
 
