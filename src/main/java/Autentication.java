@@ -7,8 +7,8 @@ public class Autentication {
 
     public static Response response;
     public static String status;
-    public static String codeAuthentication;
-    public static String accessToken;
+    public static java.lang.Object codeAuthentication;
+    public static java.lang.Object accessToken;
 
     public void getAuthenticationCode() {
         //    File json = new File("src/test/resources/email.json");

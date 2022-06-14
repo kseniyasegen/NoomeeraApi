@@ -7,5 +7,9 @@ public class Endpoints {
     public static final String AUTHENTICAUTION_TOKEN_URL = URL +"/v2/authentication/token";
     public static final String GET_USER_INFO_URL = URL +"/v2/users/get_user_info";
     public static final String GET_USER_LINK_URL = URL +"/v2/users/#{user_id}/get_link";
-
+    public static final String GET_USER_FRIENDS_URL = URL +"/v2/users/friends";
+    public static final String GET_USER_COUNT_FRIENDS_URL = URL +"/friends/get_count_friends";
+    public static final String GET_MY_PROFILE_URL = URL +"/v2/users/profile";
+    public static final String GET_MY_EMAIL_URL = URL +"/v2/users/email";
+    public static final String GET_MY_PHONE_NUMBER_URL = URL +"/v2/users/phone_number";
 }
