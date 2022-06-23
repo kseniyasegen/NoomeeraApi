@@ -13,7 +13,7 @@ public class Autentication {
     public void getAuthenticationCode() {
         //    File json = new File("src/test/resources/email.json");
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("email", "nik1@testmail.test");
+        jsonObject.put("email", CommonFields.email);
         response = given().log().all()
                 .baseUri(Endpoints.URL)
                 .header("Content-type", "application/json")
@@ -30,7 +30,7 @@ public class Autentication {
     public void getAuthentication() {
         //    File json = new File("src/test/resources/email.json");
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("email", "nik1@testmail.test");
+        jsonObject.put("email", CommonFields.email);
         jsonObject.put("code", "111111");
         jsonObject.put("code_challenge", "kqU8naFQSp6ANPs45HRzPNMVv7pHPWu462pamEmDlxw=");
         jsonObject.put("code_challenge_method", "sha256");
@@ -49,7 +49,7 @@ public class Autentication {
         //    File json = new File("src/test/resources/email.json");
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code_authentication", this.codeAuthentication);
-        jsonObject.put("code_verifier", "axnkpyjwpsxx");
+        jsonObject.put("code_verifier", CommonFields.code_verifier);
         response = given().log().all()
                 .baseUri(Endpoints.URL)
                 .header("Content-type", "application/json")
