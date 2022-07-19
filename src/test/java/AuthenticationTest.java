@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 @FixMethodOrder(MethodSorters.JVM)
 public class AuthenticationTest {
 
-    public static Response response;
+   // public static Response response;
 
 
     @Test
@@ -22,8 +22,8 @@ public class AuthenticationTest {
     public void getAuthenticationCode200() {
         Autentication autentication=new Autentication();
         autentication.getAuthenticationCode();
-        assertEquals(200, autentication.response.statusCode());
-        assertNotNull(autentication.response.jsonPath());
+        assertEquals(200, CommonFields.response.statusCode());
+        assertNotNull(CommonFields.response.jsonPath());
     }
 
     @Test
@@ -33,7 +33,7 @@ public class AuthenticationTest {
         Autentication autentication=new Autentication();
         autentication.getAuthenticationCode();
         autentication.getAuthentication();
-        assertEquals(200, autentication.response.statusCode());
+        assertEquals(200, CommonFields.response.statusCode());
     }
 
     @Test
@@ -43,7 +43,7 @@ public class AuthenticationTest {
         Autentication autentication=new Autentication();
         autentication.getAuthenticationCode();
         autentication.getAuthentication();
-        assertNotNull(autentication.response.jsonPath());
+        assertNotNull(CommonFields.response.jsonPath());
     }
 
     @Test
@@ -53,9 +53,9 @@ public class AuthenticationTest {
         Autentication autentication=new Autentication();
         autentication.getAuthenticationCode();
         autentication.getAuthentication();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
+        CommonFields.codeAuthentication = CommonFields.response.path("code_authentication");
         autentication.getToken();
-        assertEquals(200, autentication.response.statusCode());
+        assertEquals(200, CommonFields.response.statusCode());
     }
 
     @Test
@@ -65,8 +65,8 @@ public class AuthenticationTest {
         Autentication autentication=new Autentication();
         autentication.getAuthenticationCode();
         autentication.getAuthentication();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
+        CommonFields.codeAuthentication = CommonFields.response.path("code_authentication");
         autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
+        assertNotNull(CommonFields.response.jsonPath());
     }
 }
