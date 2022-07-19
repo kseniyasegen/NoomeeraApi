@@ -5,16 +5,10 @@ import static io.restassured.RestAssured.given;
 
 public class Autentication {
 
-    public static Response response;
-    public static String status;
-    public static java.lang.Object codeAuthentication;
-    public static java.lang.Object accessToken;
-
     public void getAuthenticationCode() {
-        //    File json = new File("src/test/resources/email.json");
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("email", CommonFields.email);
-        response = given().log().all()
+        CommonFields.response = given().log().all()
                 .baseUri(Endpoints.URL)
                 .header("Content-type", "application/json")
                 .header("n-build", "4.43.0")
@@ -23,18 +17,15 @@ public class Autentication {
                 .body(jsonObject.toMap())
                 .when().log().all()
                 .post(Endpoints.AUTHENTICAUTION_SEND_CODE_URL);
-        // assertNull(response.jsonPath());
-        // status = response.path("ok");
     }
 
     public void getAuthentication() {
-        //    File json = new File("src/test/resources/email.json");
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("email", CommonFields.email);
         jsonObject.put("code", "111111");
         jsonObject.put("code_challenge", "kqU8naFQSp6ANPs45HRzPNMVv7pHPWu462pamEmDlxw=");
         jsonObject.put("code_challenge_method", "sha256");
-        response = given().log().all()
+        CommonFields.response = given().log().all()
                 .baseUri(Endpoints.URL)
                 .header("Content-type", "application/json")
                 .header("n-build", "4.43.0")
@@ -48,9 +39,9 @@ public class Autentication {
     public void getToken() {
         //    File json = new File("src/test/resources/email.json");
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("code_authentication", this.codeAuthentication);
+        jsonObject.put("code_authentication", CommonFields.codeAuthentication);
         jsonObject.put("code_verifier", CommonFields.code_verifier);
-        response = given().log().all()
+        CommonFields.response = given().log().all()
                 .baseUri(Endpoints.URL)
                 .header("Content-type", "application/json")
                 .header("n-build", "4.43.0")
@@ -60,4 +51,14 @@ public class Autentication {
                 .when().log().all()
                 .post(Endpoints.AUTHENTICAUTION_TOKEN_URL);
     }
+
+    public void getAuthorisation() {
+        getAuthenticationCode();
+        getAuthentication();
+        CommonFields.codeAuthentication = CommonFields.response.path("code_authentication");
+        getToken();
+        CommonFields.accessToken = CommonFields.response.path("access_token");
+    }
+
+
 }

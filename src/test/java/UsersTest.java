@@ -1,606 +1,262 @@
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.json.JSONObject;
+import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import java.util.Map;
+import java.util.Optional;
+
+import static org.junit.Assert.*;
 
 @FixMethodOrder(MethodSorters.JVM)
 public class UsersTest {
 
     @Test
-    @DisplayName("При запросе информации о юзере приходит 200")
+    @DisplayName("При запросе информации о юзере приходит: " +
+            "статус код 200" +
+            "непустой success.users")
     @Description("/v2/users/get_user_info")
     public void getUsersInfoStatusCode200(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
+        Autentication autentication = new Autentication();
+        autentication.getAuthorisation();
         Users users = new Users();
         users.getUserInfo();
-        assertEquals(200, users.response.statusCode());
+        CommonFields.response.prettyPrint();
+        assertEquals(200, CommonFields.response.statusCode());
+        Assert.assertNotNull(CommonFields.response.path("success.users"));
     }
 
-    @Test
-    @DisplayName("При запросе информации о юзере приходит непустой json")
-    @Description("/v2/users/get_user_info")
-    public void getUsersInfoNotNullJson(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
-        Users users = new Users();
-        users.getUserInfo();
-        assertNotNull(autentication.response.jsonPath());
-    }
 
     @Test
-    @DisplayName("При запросе ссылки профиля приходит 200")
+    @DisplayName("При запросе ссылки профиля приходит:" +
+            "статус код 200" +
+            "непустой success.deep_link_url")
     @Description("/v2/users/#{user_id}/get_link")
     public void getUsersLinkStatusCode200(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
+        Autentication autentication = new Autentication();
+        autentication.getAuthorisation();
         Users users = new Users();
         users.getUserLink();
-        assertEquals(200, users.response.statusCode());
+        CommonFields.response.prettyPrint();
+        assertEquals(200, CommonFields.response.statusCode());
+        Assert.assertNotNull(CommonFields.response.path("success.deep_link_url"));
     }
 
-    @Test
-    @DisplayName("При запросе ссылки профиля приходит непустой json")
-    @Description("/v2/users/#{user_id}/get_link")
-    public void getUsersLinkNotNullJson(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
-        Users users = new Users();
-        users.getUserLink();
-        assertNotNull(autentication.response.jsonPath());
-    }
+
 
     @Test
-    @DisplayName("При запросе друзей юзера приходит 200")
+    @DisplayName("При запросе друзей юзера приходит:" +
+            "статус код 200" +
+            "непустой success.friends")
     @Description("/v2/users/friends")
     public void getUsersFriendsStatusCode200(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
+        Autentication autentication = new Autentication();
+        autentication.getAuthorisation();
         Users users = new Users();
         users.getUserFriends();
-        assertEquals(200, users.response.statusCode());
-    }
+        CommonFields.response.prettyPrint();
+        assertEquals(200, CommonFields.response.statusCode());
+        Assert.assertNotNull(CommonFields.response.path("success.friends"));
 
-
-    @Test
-    @DisplayName("При запросе друзей юзера приходит непустой json")
-    @Description("/v2/users/friends")
-    public void getUsersFriendsNotNullJson(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
-        Users users = new Users();
-        users.getUserFriends();
-        users.response.prettyPrint();
-        assertNotNull(autentication.response.jsonPath());
     }
 
     @Test
-    @DisplayName("При запросе количества друзей юзера приходит 200")
+    @DisplayName("При запросе количества друзей (но запрос возвращается всех друзей!!!!) юзера приходит:" +
+            "статус код 200" +
+            "в друзьях есть automationapi2")
     @Description("/friends/get_count_friends")
     public void getUsersCountFriendsStatusCode200(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
+        Autentication autentication = new Autentication();
+        autentication.getAuthorisation();
         Users users = new Users();
         users.getUserCountFriends();
-        assertEquals(200, users.response.statusCode());
+        CommonFields.response.prettyPrint();
+        assertEquals(200, CommonFields.response.statusCode());
+        CommonFields.response.then().body("success.avatar", Matchers.everyItem(Matchers.is(Matchers.notNullValue())));
+       // CommonFields.response.then().body("success.approved", Matchers.everyItem(Matchers.is(Boolean.valueOf("false"))));
+       // CommonFields.response.then().body("success.birthday", Matchers.everyItem(Matchers.is(936835200)));
+       // CommonFields.response.then().body("success.avatar.animation", Matchers.everyItem(Matchers.containsStringIgnoringCase("assets")));
+        CommonFields.response.then().body("success.uniqname", Matchers.everyItem(Matchers.containsStringIgnoringCase("automationapi2")));
     }
 
     @Test
-    @DisplayName("При запросе количества друзей юзера приходит непустой json")
-    @Description("/friends/get_count_friends")
-    public void getUsersCountFriendsNotNullJson(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
-        Users users = new Users();
-        users.getUserCountFriends();
-        users.response.prettyPrint();
-        assertNotNull(autentication.response.jsonPath());
-    }
-
-    @Test
-    @DisplayName("При запросе моего профиля приходит 200")
+    @DisplayName("При запросе моего профиля приходит:" +
+            "статус код 200" +
+            "uniqname automationapi1")
     @Description("/v2/users/profile")
     public void getMyProfileStatusCode200(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
+        Autentication autentication = new Autentication();
+        autentication.getAuthorisation();
         Users users = new Users();
         users.getMyProfile();
-        assertEquals(200, users.response.statusCode());
+        CommonFields.response.prettyPrint();
+        assertEquals(200, CommonFields.response.statusCode());
+        assertEquals("automationapi1", CommonFields.response.path("success.uniqname"));
     }
 
     @Test
-    @DisplayName("При запросе моего профиля приходит непустой json")
-    @Description("/v2/users/profile")
-    public void getMyProfileNotNullJson(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
-        Users users = new Users();
-        users.getMyProfile();
-        users.response.prettyPrint();
-        assertNotNull(autentication.response.jsonPath());
-    }
-
-    @Test
-    @DisplayName("При запросе моего имейла приходит 200")
+    @DisplayName("При запросе моего имейла приходит" +
+            "статус код 200" +
+            "приходит правильный email")
     @Description("/v2/users/email")
     public void getMyEmailStatusCode200(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
+        Autentication autentication = new Autentication();
+        autentication.getAuthorisation();
         Users users = new Users();
         users.getMyEmail();
-        assertEquals(200, users.response.statusCode());
-    }
-
-    @Test
-    @DisplayName("При запросе моего имейла приходит непустой json")
-    @Description("/v2/users/email")
-    public void getMyEmailNotNullJson(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
-        Users users = new Users();
-        users.getMyEmail();
-        users.response.prettyPrint();
-        assertNotNull(autentication.response.jsonPath());
+        CommonFields.response.prettyPrint();
+        assertEquals(200, CommonFields.response.statusCode());
+        assertEquals(CommonFields.email, CommonFields.response.path("success.email"));
     }
 
     @Test
     @DisplayName("При запросе моего номера телефона приходит 200")
     @Description("/v2/users/phone_number")
     public void getMyPhoneNumberStatusCode200(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
+        Autentication autentication = new Autentication();
+        autentication.getAuthorisation();
         Users users = new Users();
         users.getMyPhoneNumber();
-        assertEquals(200, users.response.statusCode());
+        CommonFields.response.prettyPrint();
+        assertEquals(200, CommonFields.response.statusCode());
+        Assert.assertNull(CommonFields.response.path("success.phone_number"));
     }
 
-    @Test
-    @DisplayName("При запросе моего номера телефона приходит непустой json")
-    @Description("/v2/users/phone_number")
-    public void getMyPhoneNumberNotNullJson(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
-        Users users = new Users();
-        users.getMyPhoneNumber();
-        users.response.prettyPrint();
-        assertNotNull(autentication.response.jsonPath());
-    }
-
-    @Test
+   /* @Test
     @DisplayName("При запросе списка друзей юзера приходит 200")
     @Description("/v2/users/friends")
     public void getUserFriendsListStatusCode200(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
+        Autentication autentication = new Autentication();
+        autentication.getAuthorisation();
         Users users = new Users();
         users.getUserFriendsList();
-        assertEquals(200, users.response.statusCode());
+        CommonFields.response.prettyPrint();
+        assertEquals(200, CommonFields.response.statusCode());
     }
+    */
+
 
     @Test
-    @DisplayName("При запросе списка друзей юзера приходит непустой json")
-    @Description("/v2/users/friends")
-    public void getUserFriendsListNotNullJson(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
-        Users users = new Users();
-        users.getUserFriendsList();
-        users.response.prettyPrint();
-        assertNotNull(autentication.response.jsonPath());
-    }
-
-    @Test
-    @DisplayName("При запросе проверки уникального имени приходит 200")
+    @DisplayName("При запросе проверки уникального имени приходит" +
+            "статус код 200" +
+            "success ok")
     @Description("/v2/users/check_uniqname")
     public void getCheckUniqnameStatusCode200(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
+        Autentication autentication = new Autentication();
+        autentication.getAuthorisation();
         Users users = new Users();
         users.getCheckUniqname();
-        assertEquals(200, users.response.statusCode());
+        CommonFields.response.prettyPrint();
+        assertEquals(200, CommonFields.response.statusCode());
+        assertEquals("ok", CommonFields.response.path("success"));
     }
 
     @Test
-    @DisplayName("При запросе проверки уникального имени приходит непустой json")
-    @Description("/v2/users/check_uniqname")
-    public void getCheckUniqnameNotNullJson(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
-        Users users = new Users();
-        users.getCheckUniqname();
-        users.response.prettyPrint();
-        assertNotNull(autentication.response.jsonPath());
-    }
-
-    @Test
-    @DisplayName("При запросе генерации уникального имени приходит 200")
+    @DisplayName("При запросе генерации уникального имени приходит:" +
+            "статус код 200" +
+            "success соответствует введенному значению")
     @Description("/v2/users/generate_uniqname")
-    public void getGeneratekUniqnameStatusCode200(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
+    public void getGenerateUniqnameStatusCode200(){
+        Autentication autentication = new Autentication();
+        autentication.getAuthorisation();
         Users users = new Users();
         users.getGenerateUniqname();
-        assertEquals(200, users.response.statusCode());
+        CommonFields.response.prettyPrint();
+        assertEquals(200, CommonFields.response.statusCode());
+        assertEquals(CommonFields.source, CommonFields.response.path("success"));
     }
 
     @Test
-    @DisplayName("При запросе генерации уникального имени приходит непустой json")
-    @Description("/v2/users/generate_uniqname")
-    public void getGenerateUniqnameNotNullJson(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
-        Users users = new Users();
-        users.getGenerateUniqname();
-        users.response.prettyPrint();
-        assertNotNull(autentication.response.jsonPath());
-    }
-
-    @Test
-    @DisplayName("При запросе профиля юзера приходит 200")
+    @DisplayName("При запросе профиля юзера приходит:" +
+            "статус код 200"+
+            "uniqname automationapi2")
     @Description("/v2/users/:user_id/profile")
     public void getUsersProfileStatusCode200(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
+        Autentication autentication = new Autentication();
+        autentication.getAuthorisation();
         Users users = new Users();
         users.getUsersProfile();
-        assertEquals(200, users.response.statusCode());
+        CommonFields.response.prettyPrint();
+        assertEquals(200, CommonFields.response.statusCode());
+        assertEquals("automationapi2", CommonFields.response.path("success.uniqname"));
     }
 
     @Test
-    @DisplayName("При запросе профиля юзера приходит непустой json")
-    @Description("/v2/users/:user_id/profile")
-    public void getUsersProfileNotNullJson(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
-        Users users = new Users();
-        users.getUsersProfile();
-        users.response.prettyPrint();
-        assertNotNull(autentication.response.jsonPath());
-    }
-
-    @Test
-    @DisplayName("При запросе моих разрешений приходит 200")
+    @DisplayName("При запросе моих разрешений приходит" +
+            "статус код 200")
     @Description("/v2/users/permissions")
     public void getMyPermissionStatusCode200(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
+        Autentication autentication = new Autentication();
+        autentication.getAuthorisation();
         Users users = new Users();
         users.getMyPermissions();
-        assertEquals(200, users.response.statusCode());
+        CommonFields.response.prettyPrint();
+        assertEquals(200, CommonFields.response.statusCode());
     }
 
     @Test
-    @DisplayName("При запросе моих разрешений приходит непустой json")
-    @Description("/v2/users/permissions")
-    public void getMyPermissionsNotNullJson(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
-        Users users = new Users();
-        users.getMyPermissions();
-        users.response.prettyPrint();
-        assertNotNull(autentication.response.jsonPath());
-    }
-
-    @Test
-    @DisplayName("После обновления профиля приходит 200")
+    @DisplayName("После обновления профиля приходит:" +
+            "статус код 200"+
+            "uniqname automationapi1")
     @Description("/v2/users/profile")
     public void postUpdateProfileReturnsStatusCode200(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
+        Autentication autentication = new Autentication();
+        autentication.getAuthorisation();
         Users users = new Users();
         users.postUpdateProfile();
-        assertEquals(200, users.response.statusCode());
+        CommonFields.response.prettyPrint();
+        assertEquals(200, CommonFields.response.statusCode());
+        assertEquals("automationapi1", CommonFields.response.path("success.uniqname"));
     }
 
     @Test
-    @DisplayName("После обновления профиля приходит непустой json")
-    @Description("/v2/users/profile")
-    public void postUpdateProfileReturnsNotNullJson(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
-        Users users = new Users();
-        users.postUpdateProfile();
-        users.response.prettyPrint();
-        assertNotNull(autentication.response.jsonPath());
-    }
-
-    @Test
-    @DisplayName("После отправки профиля в чат приходит 200")
+    @DisplayName("После отправки профиля в чат приходит:" +
+            "статус код 200" +
+            "id юзера, чей профиль был отправлен")
     @Description("/v2/users/3044091/share/message")
     public void postShareProfileReturnsStatusCode200(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
+        Autentication autentication = new Autentication();
+        autentication.getAuthorisation();
         Users users = new Users();
         users.postShareProfile();
-        assertEquals(200, users.response.statusCode());
+        CommonFields.response.prettyPrint();
+        assertEquals(200, CommonFields.response.statusCode());
+        int actual = CommonFields.response.path("success.user_id");
+        assertEquals(CommonFields.shareProfileId, actual);
     }
-
-    @Test
-    @DisplayName("После отправки профиля в чат приходит непустой json")
-    @Description("/v2/users/3044091/share/message")
-    public void postShareProfileReturnsNotNullJson(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
-        Users users = new Users();
-        users.postShareProfile();
-        users.response.prettyPrint();
-        assertNotNull(autentication.response.jsonPath());
-    }
-
 
 
     @Test
     @DisplayName("После удаления профиля приходит 200")
     @Description("/v2/users/profile")
     public void deleteProfileReturnsStatusCode200(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
+        Autentication autentication = new Autentication();
+        autentication.getAuthorisation();
         Users users = new Users();
         users.deleteProfile();
-        assertEquals(200, users.response.statusCode());
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
+        CommonFields.response.prettyPrint();
+        assertEquals(200, CommonFields.response.statusCode());
+        autentication.getAuthorisation();
         users.recoverProfile();
     }
 
     @Test
-    @DisplayName("После удаления профиля приходит непустой json")
-    @Description("/v2/users/profile")
-    public void deleteProfileReturnsNotNullJson(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
-        Users users = new Users();
-        users.deleteProfile();
-        users.response.prettyPrint();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
-        users.recoverProfile();
-    }
-
-    @Test
-    @DisplayName("После удаления профиля приходит 200")
+    @DisplayName("После восстановления профиля приходит 200")
     @Description("/v2/users/profile/recover")
     public void patchRecoverProfileReturnsStatusCode200(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
+        Autentication autentication = new Autentication();
+        autentication.getAuthorisation();
         Users users = new Users();
         users.deleteProfile();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
+        autentication.getAuthorisation();
         users.recoverProfile();
-        assertEquals(200, users.response.statusCode());
-    }
-
-    @Test
-    @DisplayName("После удаления профиля приходит непустой json")
-    @Description("/v2/users/profile/recover")
-    public void patchRecoverProfileReturnsNotNullJson(){
-        Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
-        Users users = new Users();
-        users.deleteProfile();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
-        autentication.response.prettyPrint();
-        autentication.codeAuthentication = autentication.response.path("code_authentication");
-        autentication.getToken();
-        assertNotNull(autentication.response.jsonPath());
-        autentication.accessToken = autentication.response.path("access_token");
-        users.recoverProfile();
-        users.response.prettyPrint();
-        assertNotNull(autentication.response.jsonPath());
+        CommonFields.response.prettyPrint();
+        assertEquals(200, CommonFields.response.statusCode());
     }
 }
