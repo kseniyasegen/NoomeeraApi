@@ -14,7 +14,6 @@ public class Users {
 
 
     public void getUserInfo() {
-       // Autentication autentication = new Autentication();
         CommonFields.response = given().log().all()
                 .queryParam("user_id", CommonFields.user_id)
                 .queryParam("user_type", CommonFields.user_type)
@@ -30,7 +29,6 @@ public class Users {
     }
 
     public void getUserLink() {
-       // Autentication autentication = new Autentication();
         CommonFields.response = given().log().all()
                 .queryParam("user_id", CommonFields.user_id)
                 .queryParam("user_type", CommonFields.user_type)
@@ -46,7 +44,6 @@ public class Users {
     }
 
     public void getUserFriends() {
-       // Autentication autentication = new Autentication();
         CommonFields.response = given().log().all()
                 .queryParam("user_id", CommonFields.user_id)
                 .queryParam("user_type", CommonFields.user_type)
@@ -65,8 +62,7 @@ public class Users {
 
 
     public void getUserCountFriends() {
-      //  Autentication autentication = new Autentication();
-        CommonFields.response = given().log().all()
+      CommonFields.response = given().log().all()
                 .baseUri(Endpoints.URL)
                 .header("Content-type", "application/json")
                 .header("n-build", "4.43.0")
@@ -78,7 +74,6 @@ public class Users {
     }
 
     public void getMyProfile() {
-      //  Autentication autentication = new Autentication();
         CommonFields.response = given().log().all()
                 .baseUri(Endpoints.URL)
                 .header("Content-type", "application/json")
@@ -91,8 +86,7 @@ public class Users {
     }
 
     public void getMyEmail() {
-      //  Autentication autentication = new Autentication();
-        CommonFields.response = given().log().all()
+       CommonFields.response = given().log().all()
                 .baseUri(Endpoints.URL)
                 .header("Content-type", "application/json")
                 .header("n-build", "4.43.0")
@@ -104,8 +98,7 @@ public class Users {
     }
 
     public void getMyPhoneNumber() {
-      //  Autentication autentication = new Autentication();
-        CommonFields.response = given().log().all()
+      CommonFields.response = given().log().all()
                 .baseUri(Endpoints.URL)
                 .header("Content-type", "application/json")
                 .header("n-build", "4.43.0")
@@ -117,8 +110,7 @@ public class Users {
     }
 
     public void getUserFriendsList() {
-      //  Autentication autentication = new Autentication();
-        CommonFields.response = given().log().all()
+       CommonFields.response = given().log().all()
                 .queryParam("user_id", CommonFields.user_id)
                 .queryParam("user_type", CommonFields.user_type)
                 .queryParam("limit", CommonFields.limit)
@@ -135,8 +127,7 @@ public class Users {
     }
 
     public void getCheckUniqname() {
-     //   Autentication autentication = new Autentication();
-        CommonFields.response = given().log().all()
+       CommonFields.response = given().log().all()
                 .queryParam("uniqname", CommonFields.uniqname)
                 .baseUri(Endpoints.URL)
                 .header("Content-type", "application/json")
@@ -149,8 +140,7 @@ public class Users {
     }
 
     public void getGenerateUniqname() {
-     //   Autentication autentication = new Autentication();
-        CommonFields.response = given().log().all()
+       CommonFields.response = given().log().all()
                 .queryParam("source", CommonFields.source)
                 .baseUri(Endpoints.URL)
                 .header("Content-type", "application/json")
@@ -163,7 +153,6 @@ public class Users {
     }
 
     public void getUsersProfile() {
-     //   Autentication autentication = new Autentication();
         CommonFields.response = given().log().all()
               //  .queryParam("user_id", CommonFields.user_id)
                 .baseUri(Endpoints.URL)
@@ -176,9 +165,21 @@ public class Users {
                 .get(Endpoints.GET_USERS_PROFILE_URL);
     }
 
-    public void getMyPermissions() {
-     //   Autentication autentication = new Autentication();
+    public void getFakeUsersProfile() {
         CommonFields.response = given().log().all()
+                //  .queryParam("user_id", CommonFields.user_id)
+                .baseUri(Endpoints.URL)
+                .header("Content-type", "application/json")
+                .header("n-build", "4.43.0")
+                .header("n-device", "emulator")
+                .header("n-device-id", "123")
+                .header("Authorization", "Bearer "+ CommonFields.accessToken)
+                .when().log().all()
+                .get(Endpoints.GET_FAKE_USERS_PROFILE_URL);
+    }
+
+    public void getMyPermissions() {
+       CommonFields.response = given().log().all()
                 .baseUri(Endpoints.URL)
                 .header("Content-type", "application/json")
                 .header("n-build", "4.43.0")
@@ -190,7 +191,6 @@ public class Users {
     }
 
     public void postUpdateProfile() {
-     //   Autentication autentication = new Autentication();
         CommonFields.response = given().log().all()
                 .queryParam("name", "")
                 .queryParam("uniqname", "")
@@ -211,7 +211,6 @@ public class Users {
     }
 
     public void postShareProfile() {
-      //  Autentication autentication = new Autentication();
         JSONArray user_ids = new JSONArray();
         user_ids.put(CommonFields.user_ids);
 
@@ -232,10 +231,30 @@ public class Users {
                 .post(Endpoints.POST_SHARE_PROFILE_URL);
     }
 
+    public void postShareProfileToMyself() {
+        JSONArray user_ids = new JSONArray();
+        user_ids.put(CommonFields.myId);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("comment", CommonFields.comment);
+        jsonObject.put("user_ids", user_ids);
+        jsonObject.put("room_ids", "");
+
+        CommonFields.response = given().log().all()
+                .baseUri(Endpoints.URL)
+                .header("Content-type", "application/json")
+                .header("n-build", "4.43.0")
+                .header("n-device", "emulator")
+                .header("n-device-id", "123")
+                .header("Authorization", "Bearer "+ CommonFields.accessToken)
+                .body(jsonObject.toMap())
+                .when().log().all()
+                .post(Endpoints.POST_SHARE_PROFILE_TO_MYSELF_URL);
+    }
+
 
     public void deleteProfile() {
-     //   Autentication autentication = new Autentication();
-        CommonFields.response = given().log().all()
+       CommonFields.response = given().log().all()
                 .queryParam("reason_id", "")
                 .queryParam("comment", "")
                 .baseUri(Endpoints.URL)
@@ -249,8 +268,7 @@ public class Users {
     }
 
     public void recoverProfile() {
-     //   Autentication autentication = new Autentication();
-        CommonFields.response = given().log().all()
+       CommonFields.response = given().log().all()
                 .baseUri(Endpoints.URL)
                 .header("Content-type", "application/json")
                 .header("n-build", "4.43.0")

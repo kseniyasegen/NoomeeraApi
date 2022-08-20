@@ -2,6 +2,7 @@ import groovyjarjarantlr4.v4.codegen.model.SrcOp;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import org.hamcrest.Matchers;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -9,15 +10,20 @@ import static org.junit.Assert.assertNotNull;
 
 public class PostsTest {
 
+    Autentication autentication = new Autentication();
+    Posts posts = new Posts();
+
+    @Before
+    public void autorise() {
+        autentication.getAuthorisation(CommonFields.emailAutomationApi1);
+    }
+
     @Test
     @DisplayName("При запросе списка постов приходит:" +
             "статус код 200" +
             "хотя один пост в поле privacy == public")
     @Description("/v1/posts")
     public void getPostsStatusCode200(){
-        Autentication autentication = new Autentication();
-        autentication.getAuthorisation();
-        Posts posts = new Posts();
         posts.getPosts();
         CommonFields.response.prettyPrint();
         assertEquals(200, CommonFields.response.statusCode());
@@ -32,9 +38,6 @@ public class PostsTest {
             "id поста в ответе")
     @Description("/v1/posts/:id")
     public void getPostByIdStatusCode200(){
-        Autentication autentication = new Autentication();
-        autentication.getAuthorisation();
-        Posts posts = new Posts();
         posts.getPostById();
         CommonFields.response.prettyPrint();
         assertEquals(200, CommonFields.response.statusCode());
@@ -47,13 +50,10 @@ public class PostsTest {
             "статус код 200")
     @Description("/v1/posts/:id/hide")
     public void getPostHidePostStatusCode200(){
-        Autentication autentication = new Autentication();
-        autentication.getAuthorisation();
-        Posts posts = new Posts();
         posts.postHidePost();
         CommonFields.response.prettyPrint();
         assertEquals(200, CommonFields.response.statusCode());
-        assertEquals(true, CommonFields.response.path("success"));
+//        assertEquals(true, CommonFields.response.path("success"));
     }
 
 
@@ -63,9 +63,6 @@ public class PostsTest {
             "success == true")
     @Description("/v1/posts/:id/subscribe")
     public void getPatchSubscribeAtPostStatusCode200(){
-        Autentication autentication = new Autentication();
-        autentication.getAuthorisation();
-        Posts posts = new Posts();
         posts.patchSubscribeAtPost();
         CommonFields.response.prettyPrint();
         assertEquals(200, CommonFields.response.statusCode());
@@ -78,9 +75,6 @@ public class PostsTest {
             "success == true")
     @Description("/v1/posts/:id/unsubscribe")
     public void getPatchUnsubscribeAtPostStatusCode200(){
-        Autentication autentication = new Autentication();
-        autentication.getAuthorisation();
-        Posts posts = new Posts();
         posts.patchUnsubscribeAtPost();
         CommonFields.response.prettyPrint();
         assertEquals(200, CommonFields.response.statusCode());
@@ -92,9 +86,6 @@ public class PostsTest {
             "статус код 200")
     @Description("/v1/users/:id/hide_postse")
     public void postHidePostsUserStatusCode200(){
-        Autentication autentication = new Autentication();
-        autentication.getAuthorisation();
-        Posts posts = new Posts();
         posts.postHidePostsUser();
         CommonFields.response.prettyPrint();
         assertEquals(200, CommonFields.response.statusCode());
@@ -105,9 +96,6 @@ public class PostsTest {
             "статус код 200")
     @Description("/v1/users/:id/hide_postse")
     public void postUnhidePostsUserStatusCode200(){
-        Autentication autentication = new Autentication();
-        autentication.getAuthorisation();
-        Posts posts = new Posts();
         posts.postUnhidePostsUser();
         CommonFields.response.prettyPrint();
         assertEquals(200, CommonFields.response.statusCode());
@@ -119,9 +107,6 @@ public class PostsTest {
             "непустой success.post_id")
     @Description("/v2/posts")
     public void posAddPostStatusCode200(){
-        Autentication autentication = new Autentication();
-        autentication.getAuthorisation();
-        Posts posts = new Posts();
         posts.posAddPost();
         CommonFields.response.prettyPrint();
         assertEquals(200, CommonFields.response.statusCode());
@@ -134,9 +119,6 @@ public class PostsTest {
             "непустой success.deep_link_url")
     @Description("/v2/posts/:post_id/get_link")
     public void getPostLinkStatusCode200(){
-        Autentication autentication = new Autentication();
-        autentication.getAuthorisation();
-        Posts posts = new Posts();
         posts.getPostLink();
         CommonFields.response.prettyPrint();
         assertEquals(200, CommonFields.response.statusCode());
@@ -149,9 +131,6 @@ public class PostsTest {
             "в success.post.id приходит id поста")
     @Description("/v3/posts/:post_id/add_reaction")
     public void postPostReactionStatusCode200(){
-        Autentication autentication = new Autentication();
-        autentication.getAuthorisation();
-        Posts posts = new Posts();
         posts.postPostReaction();
         CommonFields.response.prettyPrint();
         assertEquals(200, CommonFields.response.statusCode());
@@ -167,9 +146,6 @@ public class PostsTest {
             "в success.post.id приходит id поста")
     @Description("/v3/posts/:post_id/remove_reaction")
     public void removePostReactionStatusCode200(){
-        Autentication autentication = new Autentication();
-        autentication.getAuthorisation();
-        Posts posts = new Posts();
         posts.postPostReaction();
         posts.removePostReaction();
         CommonFields.response.prettyPrint();
@@ -185,9 +161,6 @@ public class PostsTest {
             "в success.post.id приходит id поста")
     @Description("/v2/posts/:post_id/repost/roadtape")
     public void getAddPostRepostToRoadtypeStatusCode200(){
-        Autentication autentication = new Autentication();
-        autentication.getAuthorisation();
-        Posts posts = new Posts();
         posts.postAddRepostToRoadtype();
         CommonFields.response.prettyPrint();
         assertEquals(200, CommonFields.response.statusCode());
@@ -201,9 +174,6 @@ public class PostsTest {
             "в success.post.id приходит id поста")
     @Description("/v2/posts/:post_id/repost/group")
     public void getAddPostRepostToGroupStatusCode200(){
-        Autentication autentication = new Autentication();
-        autentication.getAuthorisation();
-        Posts posts = new Posts();
         posts.postAddRepostToGroup();
         CommonFields.response.prettyPrint();
         assertEquals(200, CommonFields.response.statusCode());
@@ -217,9 +187,6 @@ public class PostsTest {
             "в success.post.id приходит id поста")
     @Description("/v2/posts/:post_id/repost/message")
     public void getPostAddRepostToMessageStatusCode200(){
-        Autentication autentication = new Autentication();
-        autentication.getAuthorisation();
-        Posts posts = new Posts();
         posts.postAddRepostToMessage();
         CommonFields.response.prettyPrint();
         assertEquals(200, CommonFields.response.statusCode());
@@ -233,9 +200,6 @@ public class PostsTest {
             "непустой success.comment")
     @Description("/v3/posts/:post_id/add_comment")
     public void getPostAddCommentToPostStatusCode200(){
-        Autentication autentication = new Autentication();
-        autentication.getAuthorisation();
-        Posts posts = new Posts();
         posts.postAddCommentToPost();
         CommonFields.response.prettyPrint();
         assertEquals(200, CommonFields.response.statusCode());
@@ -248,9 +212,6 @@ public class PostsTest {
             "непустой success.comments.name")
     @Description("/posts/get_post_comments")
     public void getPostCommentsStatusCode200(){
-        Autentication autentication = new Autentication();
-        autentication.getAuthorisation();
-        Posts posts = new Posts();
         posts.getPostComments();
         CommonFields.response.prettyPrint();
         assertEquals(200, CommonFields.response.statusCode());
@@ -262,9 +223,6 @@ public class PostsTest {
             "статус код 200")
     @Description("/posts/get_post_comments")
     public void getPostDeleteCommentStatusCode200(){
-        Autentication autentication = new Autentication();
-        autentication.getAuthorisation();
-        Posts posts = new Posts();
         posts.postDeleteComment();
         CommonFields.response.prettyPrint();
         assertEquals(200, CommonFields.response.statusCode());
@@ -276,13 +234,38 @@ public class PostsTest {
             "непустой success.comments.name")
     @Description("/v3/comments/:comment_id")
     public void getCommentStatusCode200(){
-        Autentication autentication = new Autentication();
-        autentication.getAuthorisation();
-        Posts posts = new Posts();
         posts.getComment();
         CommonFields.response.prettyPrint();
         assertEquals(200, CommonFields.response.statusCode());
-    //    CommonFields.response.then().body("success.comments.name", Matchers.everyItem(Matchers.is(Matchers.notNullValue())));
+        assertNotNull(CommonFields.response.path("success.comment.text"));
+    }
+
+    @Test
+    @DisplayName("При проставлении реакции к комментарию:" +
+            "статус код 200" +
+            "в success.comment.id приходит id поста")
+    @Description("/v3/comments/:comment_id/add_reaction")
+    public void postCommentReactionStatusCode200(){
+        posts.postAddCommentReaction();
+        CommonFields.response.prettyPrint();
+        assertEquals(200, CommonFields.response.statusCode());
+        int actual = CommonFields.response.path("success.comment.id");
+        assertEquals(CommonFields.commentId, actual);
+        posts.removeCommentReaction();
+    }
+
+    @Test
+    @DisplayName("При проставлении реакции к комментарию:" +
+            "статус код 200" +
+            "в success.comment.id приходит id комманария")
+    @Description("/v3/comments/:comment_id//remove_reaction")
+    public void removeCommentReactionStatusCode200(){
+        posts.postAddCommentReaction();
+        posts.removeCommentReaction();
+        CommonFields.response.prettyPrint();
+        assertEquals(200, CommonFields.response.statusCode());
+        int actual = CommonFields.response.path("success.comment.id");
+        assertEquals(CommonFields.commentId, actual);
     }
 
 
