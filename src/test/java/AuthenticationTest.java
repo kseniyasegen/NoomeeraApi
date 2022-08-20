@@ -13,15 +13,13 @@ import static org.junit.Assert.*;
 @FixMethodOrder(MethodSorters.JVM)
 public class AuthenticationTest {
 
-   // public static Response response;
-
 
     @Test
     @DisplayName("При запросе кода статус код 200")
     @Description("")
     public void getAuthenticationCode200() {
         Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
+        autentication.getAuthenticationCode(CommonFields.emailAutomationApi1);
         assertEquals(200, CommonFields.response.statusCode());
         assertNotNull(CommonFields.response.jsonPath());
     }
@@ -31,8 +29,8 @@ public class AuthenticationTest {
     @Description("")
     public void getAuthentication200() {
         Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
+        autentication.getAuthenticationCode(CommonFields.emailAutomationApi1);
+        autentication.getAuthentication(CommonFields.emailAutomationApi1);
         assertEquals(200, CommonFields.response.statusCode());
     }
 
@@ -41,8 +39,8 @@ public class AuthenticationTest {
     @Description("")
     public void getAuthenticationCodeAuthentication() {
         Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
+        autentication.getAuthenticationCode(CommonFields.emailAutomationApi1);
+        autentication.getAuthentication(CommonFields.emailAutomationApi1);
         assertNotNull(CommonFields.response.jsonPath());
     }
 
@@ -51,8 +49,8 @@ public class AuthenticationTest {
     @Description("")
     public void getTokenStatusCode200() {
         Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
+        autentication.getAuthenticationCode(CommonFields.emailAutomationApi1);
+        autentication.getAuthentication(CommonFields.emailAutomationApi1);
         CommonFields.codeAuthentication = CommonFields.response.path("code_authentication");
         autentication.getToken();
         assertEquals(200, CommonFields.response.statusCode());
@@ -63,8 +61,8 @@ public class AuthenticationTest {
     @Description("")
     public void getAccessToken(){
         Autentication autentication=new Autentication();
-        autentication.getAuthenticationCode();
-        autentication.getAuthentication();
+        autentication.getAuthenticationCode(CommonFields.emailAutomationApi1);
+        autentication.getAuthentication(CommonFields.emailAutomationApi1);
         CommonFields.codeAuthentication = CommonFields.response.path("code_authentication");
         autentication.getToken();
         assertNotNull(CommonFields.response.jsonPath());

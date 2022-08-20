@@ -3,49 +3,15 @@ import org.json.JSONObject;
 
 import static io.restassured.RestAssured.given;
 
-public class Posts {
+public class Groups {
 
-    public void getPosts() {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("road_type", "0");
-        //jsonObject.put("start_post_id", "");
-        //jsonObject.put("start_index", "");
-        jsonObject.put("quantity", "20");
-        //jsonObject.put("group_id", "");
-        //jsonObject.put("user_id", "");
-        //jsonObject.put("countries", "");
-        //jsonObject.put("cities", "");
-        //jsonObject.put("include_groups", "");
-        //jsonObject.put("include_top_rated", "");
-        //jsonObject.put("hashtag", "");
+    public void postAddGroup(int privateGroup) {
         CommonFields.response = given().log().all()
-                .baseUri(Endpoints.URL)
-                .header("Content-type", "application/json")
-                .header("n-build", "4.43.0")
-                .header("n-device", "emulator")
-                .header("n-device-id", "123")
-                .header("n-os", "iOS")
-                .header("Authorization", "Bearer "+ CommonFields.accessToken)
-                .body(jsonObject.toMap())
-                .when().log().all()
-                .get(Endpoints.GET_POSTS_URL);
-    }
-
-    public void getPostById() {
-        CommonFields.response = given().log().all()
-                .baseUri(Endpoints.URL)
-                .header("Content-type", "application/json")
-                .header("n-build", "4.43.0")
-                .header("n-device", "emulator")
-                .header("n-device-id", "123")
-               // .header("n-os", "iOS")
-                .header("Authorization", "Bearer "+ CommonFields.accessToken)
-                .when().log().all()
-                .get(Endpoints.GET_POST_BY_ID_URL);
-    }
-
-    public void postHidePost() {
-        CommonFields.response = given().log().all()
+                .queryParam("name", CommonFields.addGroupName)
+                .queryParam("description", CommonFields.addGroupDescription)
+                .queryParam("private", privateGroup)
+                .queryParam("royalty", 0)
+                .queryParam("image", "")
                 .baseUri(Endpoints.URL)
                 .header("Content-type", "application/json")
                 .header("n-build", "4.43.0")
@@ -54,12 +20,12 @@ public class Posts {
                 .header("n-os", "iOS")
                 .header("Authorization", "Bearer "+ CommonFields.accessToken)
                 .when().log().all()
-                .post(Endpoints.POST_HIDE_POST_URL);
+                .post(Endpoints.POST_ADD_GROUP_URL);
     }
 
-
-    public void patchSubscribeAtPost() {
+    public void getRemoveGroup() {
         CommonFields.response = given().log().all()
+                .queryParam("group_id", CommonFields.group_id)
                 .baseUri(Endpoints.URL)
                 .header("Content-type", "application/json")
                 .header("n-build", "4.43.0")
@@ -68,11 +34,12 @@ public class Posts {
                 .header("n-os", "iOS")
                 .header("Authorization", "Bearer "+ CommonFields.accessToken)
                 .when().log().all()
-                .patch(Endpoints.PATCH_SUBSCRIBE_AT_POST_URL);
+                .get(Endpoints.GET_REMOVE_GROUP_URL);
     }
 
-    public void patchUnsubscribeAtPost() {
+    public void getRemoveGroupLink() {
         CommonFields.response = given().log().all()
+                .queryParam("group_id", CommonFields.groupIdForLink)
                 .baseUri(Endpoints.URL)
                 .header("Content-type", "application/json")
                 .header("n-build", "4.43.0")
@@ -81,166 +48,65 @@ public class Posts {
                 .header("n-os", "iOS")
                 .header("Authorization", "Bearer "+ CommonFields.accessToken)
                 .when().log().all()
-                .patch(Endpoints.PATCH_UNSUBSCRIBE_AT_POST_URL);
+                .get(Endpoints.GET_REMOVE_GROUP_URL);
     }
 
-    public void postHidePostsUser() {
+    public void getUsersInGroup() {
         CommonFields.response = given().log().all()
-                .baseUri(Endpoints.URL)
-                .header("Content-type", "application/json")
-                .header("n-build", "4.43.0")
-                .header("n-device", "emulator")
-                .header("n-device-id", "123")
-                .header("n-os", "iOS")
-                .header("Authorization", "Bearer "+ CommonFields.accessToken)
-                .when().log().all()
-                .post(Endpoints.POST_HIDE_POSTS_USER_URL);
-    }
-
-    public void postUnhidePostsUser() {
-        CommonFields.response = given().log().all()
-                .baseUri(Endpoints.URL)
-                .header("Content-type", "application/json")
-                .header("n-build", "4.43.0")
-                .header("n-device", "emulator")
-                .header("n-device-id", "123")
-                .header("n-os", "iOS")
-                .header("Authorization", "Bearer "+ CommonFields.accessToken)
-                .when().log().all()
-                .post(Endpoints.POST_UNHIDE_POSTS_USER_URL);
-    }
-
-    public void posAddPost() {
-        CommonFields.response = given().log().all()
-                .baseUri(Endpoints.URL)
-                .queryParam("group_id", 0)  // 0 - roadtape
-                .queryParam("file", "")
-                .queryParam("upload_id", "")
-                .queryParam("media", "")
-                .queryParam("text", "Это пост через автотест")
-                .queryParam("privacy", 0)   // 0 - public (default), 1 - private
-                .queryParam("gps_x", "")
-                .queryParam("gps_y", "")
-                .queryParam("comment_availability", 1)  // 0 - nobody, 1 - all, 2 - friends, 3 - community_members
-                .header("Content-type", "application/json")
-                .header("n-build", "4.43.0")
-                .header("n-device", "emulator")
-                .header("n-device-id", "123")
-                .header("n-os", "iOS")
-                .header("Authorization", "Bearer "+ CommonFields.accessToken)
-                .when().log().all()
-                .post(Endpoints.POST_ADD_POST_URL);
-    }
-
-    public void getPostLink() {
-        CommonFields.response = given().log().all()
-                .baseUri(Endpoints.URL)
-                .header("Content-type", "application/json")
-                .header("n-build", "4.43.0")
-                .header("n-device", "emulator")
-                .header("n-device-id", "123")
-                .header("n-os", "iOS")
-                .header("Authorization", "Bearer "+ CommonFields.accessToken)
-                .when().log().all()
-                .get(Endpoints.GET_POST_LINK_URL);
-    }
-
-    public void postPostReaction() {
-        CommonFields.response = given().log().all()
-                .queryParam("reaction", "fire") //laugh_tears | facepalm | fire | in_love | crying | green_light | red_light
-                .baseUri(Endpoints.URL)
-                .header("Content-type", "application/json")
-                .header("n-build", "4.43.0")
-                .header("n-device", "emulator")
-                .header("n-device-id", "123")
-                .header("n-os", "iOS")
-                .header("Authorization", "Bearer "+ CommonFields.accessToken)
-                .when().log().all()
-                .post(Endpoints.POST_ADD_POST_REACTION_URL);
-    }
-
-    public void removePostReaction() {
-        CommonFields.response = given().log().all()
-                .baseUri(Endpoints.URL)
-                .header("Content-type", "application/json")
-                .header("n-build", "4.43.0")
-                .header("n-device", "emulator")
-                .header("n-device-id", "123")
-                .header("n-os", "iOS")
-                .header("Authorization", "Bearer "+ CommonFields.accessToken)
-                .when().log().all()
-                .delete(Endpoints.POST_REMOVE_POST_REACTION_URL);
-    }
-
-    public void postAddRepostToRoadtype() {
-        CommonFields.response = given().log().all()
-                .queryParam("comment", "Это репост в дорогу через автотест")
-                .queryParam("comment_availability", 1)  //Integer [0 - nobody, 1 - all, 2 - friends]
-                .baseUri(Endpoints.URL)
-                .header("Content-type", "application/json")
-                .header("n-build", "4.43.0")
-                .header("n-device", "emulator")
-                .header("n-device-id", "123")
-                .header("n-os", "iOS")
-                .header("Authorization", "Bearer "+ CommonFields.accessToken)
-                .when().log().all()
-                .post(Endpoints.POST_ADD_REPOST_TO_ROADTYPE_URL);
-    }
-
-    public void postAddRepostToGroup() {
-        CommonFields.response = given().log().all()
-                .queryParam("comment", "Это репост в сообщество через автотест")
-                .queryParam("group_id", CommonFields.groupIdForRepostPost)
-                .queryParam("comment_availability", 1)  //Integer [0 - nobody, 1 - all, 2 - friends]
-                .baseUri(Endpoints.URL)
-                .header("Content-type", "application/json")
-                .header("n-build", "4.43.0")
-                .header("n-device", "emulator")
-                .header("n-device-id", "123")
-                .header("n-os", "iOS")
-                .header("Authorization", "Bearer "+ CommonFields.accessToken)
-                .when().log().all()
-                .post(Endpoints.POST_ADD_REPOST_TO_GROUP_URL);
-    }
-
-    public void postAddRepostToMessage() {
-        JSONArray user_ids = new JSONArray();
-        user_ids.put(CommonFields.userIdToRepostPost);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("comment", "Это репост в сообщения через автотест");
-        jsonObject.put("user_ids", user_ids);
-        jsonObject.put("room_ids", "");
-        CommonFields.response = given().log().all()
-                .baseUri(Endpoints.URL)
-                .header("Content-type", "application/json")
-                .header("n-build", "4.43.0")
-                .header("n-device", "emulator")
-                .header("n-device-id", "123")
-                .header("n-os", "iOS")
-                .header("Authorization", "Bearer "+ CommonFields.accessToken)
-                .body(jsonObject.toMap())
-                .when().log().all()
-                .post(Endpoints.POST_ADD_REPOST_TO_USER_MESSAGE_URL);
-    }
-
-    public void postAddCommentToPost() {
-        CommonFields.response = given().log().all()
-                .queryParam("text", "Это комментарий к посту через автотест")
-                .baseUri(Endpoints.URL)
-                .header("Content-type", "application/json")
-                .header("n-build", "4.43.0")
-                .header("n-device", "emulator")
-                .header("n-device-id", "123")
-                .header("n-os", "iOS")
-                .header("Authorization", "Bearer "+ CommonFields.accessToken)
-                .when().log().all()
-                .post(Endpoints.POST_ADD_POST_COMMENT_URL);
-    }
-
-    public void getPostComments() {
-        CommonFields.response = given().log().all()
-                .queryParam("post_id", CommonFields.postIdForComments)
+                .queryParam("group_id", CommonFields.group_id)
+                .queryParam("query", "")
                 .queryParam("quantity", 20) //default: 20
+                .queryParam("start_index", 0) //default: 0
+                .queryParam("user_state", 0)  //Enum(0: all | 1: blocked | 2: not_approved | 3: approved)
+                .queryParam("user_type", "UserSimple") //Enum(UserSimple, UserSimpleWithGroup)
+                .baseUri(Endpoints.URL)
+                .header("Content-type", "application/json")
+                .header("n-build", "4.43.0")
+                .header("n-device", "emulator")
+                .header("n-device-id", "123")
+                .header("n-os", "iOS")
+                .header("Authorization", "Bearer "+ CommonFields.accessToken)
+                .when().log().all()
+                .get(Endpoints.GET_USERS_IN_GROUP_URL);
+    }
+
+    public void getUserGroups() {
+        CommonFields.response = given().log().all()
+                .queryParam("user_id", CommonFields.userGroupsUserId)
+                .queryParam("start_index", 0)//default: 0
+                .queryParam("quantity", 20) //default: 20
+                .baseUri(Endpoints.URL)
+                .header("Content-type", "application/json")
+                .header("n-build", "4.43.0")
+                .header("n-device", "emulator")
+                .header("n-device-id", "123")
+                .header("n-os", "iOS")
+                .header("Authorization", "Bearer "+ CommonFields.accessToken)
+                .when().log().all()
+                .get(Endpoints.GET_USER_GROUPS_URL);
+    }
+
+    public void getSearchGroups() {
+        CommonFields.response = given().log().all()
+                .queryParam("search", "Сообщество для автотестов")
+                .queryParam("quantity", 20)//default: 20
+                .queryParam("start_index", 0) //default: 0
+                .queryParam("group_type", 0) //default: 0 - all, 1 - author, 2 - member
+                .queryParam("repost_allowed_only", false)
+                .baseUri(Endpoints.URL)
+                .header("Content-type", "application/json")
+                .header("n-build", "4.43.0")
+                .header("n-device", "emulator")
+                .header("n-device-id", "123")
+                .header("n-os", "iOS")
+                .header("Authorization", "Bearer "+ CommonFields.accessToken)
+                .when().log().all()
+                .get(Endpoints.GET_SEARCH_GROUPS_URL);
+    }
+
+    public void getTopsGroups() {
+        CommonFields.response = given().log().all()
+                .queryParam("quantity", 20)//default: 20
                 .queryParam("start_index", 0) //default: 0
                 .baseUri(Endpoints.URL)
                 .header("Content-type", "application/json")
@@ -250,13 +116,13 @@ public class Posts {
                 .header("n-os", "iOS")
                 .header("Authorization", "Bearer "+ CommonFields.accessToken)
                 .when().log().all()
-                .get(Endpoints.GET_COMMENT_BY_ID_URL);
+                .get(Endpoints.GET_TOPS_GROUPS_URL);
     }
 
-    public void postDeleteComment() {
+    public void getGroups() {
         CommonFields.response = given().log().all()
-                .queryParam("comment_id", CommonFields.commentIdForDelete)
-
+                .queryParam("quantity", 20)//default: 20
+                .queryParam("start_index", 0) //default: 0
                 .baseUri(Endpoints.URL)
                 .header("Content-type", "application/json")
                 .header("n-build", "4.43.0")
@@ -265,11 +131,18 @@ public class Posts {
                 .header("n-os", "iOS")
                 .header("Authorization", "Bearer "+ CommonFields.accessToken)
                 .when().log().all()
-                .post(Endpoints.POST_DELETE_POST_COMMENT_URL);
+                .get(Endpoints.GET_GROUPS_URL);
     }
 
-    public void getComment() {
+    public void postShareGroups() {
+        JSONArray user_ids = new JSONArray();
+        user_ids.put(CommonFields.userShareGroup);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("comment", CommonFields.commentForShareGroup);
+        jsonObject.put("user_ids", user_ids);
+        jsonObject.put("room_ids", "");
         CommonFields.response = given().log().all()
+                .pathParams("group_id", CommonFields.group_id)
                 .baseUri(Endpoints.URL)
                 .header("Content-type", "application/json")
                 .header("n-build", "4.43.0")
@@ -277,38 +150,12 @@ public class Posts {
                 .header("n-device-id", "123")
                 .header("n-os", "iOS")
                 .header("Authorization", "Bearer "+ CommonFields.accessToken)
+                .body(jsonObject.toMap())
                 .when().log().all()
-                .get(Endpoints.GET_COMMENT_URL);
+                .post(Endpoints.POST_SHARE_GROUPS_URL);
     }
 
-    public void getDeletedComment() {
-        CommonFields.response = given().log().all()
-                .baseUri(Endpoints.URL)
-                .header("Content-type", "application/json")
-                .header("n-build", "4.43.0")
-                .header("n-device", "emulator")
-                .header("n-device-id", "123")
-                .header("n-os", "iOS")
-                .header("Authorization", "Bearer "+ CommonFields.accessToken)
-                .when().log().all()
-                .get(Endpoints.GET_DELETED_COMMENT_URL);
-    }
-
-    public void postAddCommentReaction() {
-        CommonFields.response = given().log().all()
-                .queryParam("reaction", "fire") //laugh_tears | facepalm | fire | in_love | crying | green_light | red_light
-                .baseUri(Endpoints.URL)
-                .header("Content-type", "application/json")
-                .header("n-build", "4.43.0")
-                .header("n-device", "emulator")
-                .header("n-device-id", "123")
-                .header("n-os", "iOS")
-                .header("Authorization", "Bearer "+ CommonFields.accessToken)
-                .when().log().all()
-                .post(Endpoints.POST_ADD_COMMENT_REACTION_URL);
-    }
-
-    public void removeCommentReaction() {
+    public void getGroupLink() {
         CommonFields.response = given().log().all()
                 .baseUri(Endpoints.URL)
                 .header("Content-type", "application/json")
@@ -318,9 +165,232 @@ public class Posts {
                 .header("n-os", "iOS")
                 .header("Authorization", "Bearer "+ CommonFields.accessToken)
                 .when().log().all()
-                .delete(Endpoints.REMOVE_COMMENT_REACTION_URL);
+                .get(Endpoints.GET_GROUP_LINK_URL);
     }
 
+    public void getGroupsAllowedForRepost() {
+        CommonFields.response = given().log().all()
+                .queryParam("limit", 20) //default: 20
+                .queryParam("offset", 0) //default: 0
+                .queryParam("exclude_group_ids", "") //array
+                .baseUri(Endpoints.URL)
+                .header("Content-type", "application/json")
+                .header("n-build", "4.43.0")
+                .header("n-device", "emulator")
+                .header("n-device-id", "123")
+                .header("n-os", "iOS")
+                .header("Authorization", "Bearer "+ CommonFields.accessToken)
+                .when().log().all()
+                .get(Endpoints.GET_GROUPS_ALLOWED_FOR_REPOST_URL);
+    }
+
+    public void getGroupsInfo() {
+        CommonFields.response = given().log().all()
+                .queryParam("group_id", CommonFields.group_id)
+                .baseUri(Endpoints.URL)
+                .header("Content-type", "application/json")
+                .header("n-build", "4.43.0")
+                .header("n-device", "emulator")
+                .header("n-device-id", "123")
+                .header("n-os", "iOS")
+                .header("Authorization", "Bearer "+ CommonFields.accessToken)
+                .when().log().all()
+                .get(Endpoints.GET_GROUPS_INFO_URL);
+    }
+
+    public void postSetGroupInfo() {
+        CommonFields.response = given().log().all()
+                .queryParam("group_id", CommonFields.group_id)
+                .queryParam("name", CommonFields.newGroupName)
+                .queryParam("description", CommonFields.newGroupDescription)
+                .queryParam("private", 0)
+                .queryParam("royalty", 0)
+                .queryParam("image", "")
+                .baseUri(Endpoints.URL)
+                .header("Content-type", "application/json")
+                .header("n-build", "4.43.0")
+                .header("n-device", "emulator")
+                .header("n-device-id", "123")
+                .header("n-os", "iOS")
+                .header("Authorization", "Bearer "+ CommonFields.accessToken)
+                .when().log().all()
+                .post(Endpoints.POST_SET_GROUP_INFO_URL);
+    }
+
+    public void getSubscribeOnGroup() {
+        CommonFields.response = given().log().all()
+                .queryParam("group_id", CommonFields.group_id)
+                .baseUri(Endpoints.URL)
+                .header("Content-type", "application/json")
+                .header("n-build", "4.43.0")
+                .header("n-device", "emulator")
+                .header("n-device-id", "123")
+                .header("n-os", "iOS")
+                .header("Authorization", "Bearer "+ CommonFields.accessToken)
+                .when().log().all()
+                .get(Endpoints.GET_SUBSCRIBE_ON_GROUP_URL);
+    }
+
+    public void getUnsubscribeOnGroup() {
+        CommonFields.response = given().log().all()
+                .queryParam("group_id", CommonFields.group_id)
+                .baseUri(Endpoints.URL)
+                .header("Content-type", "application/json")
+                .header("n-build", "4.43.0")
+                .header("n-device", "emulator")
+                .header("n-device-id", "123")
+                .header("n-os", "iOS")
+                .header("Authorization", "Bearer "+ CommonFields.accessToken)
+                .when().log().all()
+                .get(Endpoints.GET_UNSUBSCRIBE_ON_GROUP_URL);
+    }
+
+    public void getSubscribeNotifications() {
+        CommonFields.response = given().log().all()
+                .queryParam("group_id", CommonFields.group_id)
+                .baseUri(Endpoints.URL)
+                .header("Content-type", "application/json")
+                .header("n-build", "4.43.0")
+                .header("n-device", "emulator")
+                .header("n-device-id", "123")
+                .header("n-os", "iOS")
+                .header("Authorization", "Bearer "+ CommonFields.accessToken)
+                .when().log().all()
+                .get(Endpoints.GET_SUBSCRIBE_NOTIFICATIONS_URL);
+    }
+
+    public void getUnsubscribeNotifications() {
+        CommonFields.response = given().log().all()
+                .queryParam("group_id", CommonFields.group_id)
+                .baseUri(Endpoints.URL)
+                .header("Content-type", "application/json")
+                .header("n-build", "4.43.0")
+                .header("n-device", "emulator")
+                .header("n-device-id", "123")
+                .header("n-os", "iOS")
+                .header("Authorization", "Bearer "+ CommonFields.accessToken)
+                .when().log().all()
+                .get(Endpoints.GET_UNSUBSCRIBE_NOTIFICATIONS_URL);
+    }
+
+    public void getAddModeratorInGroup() {
+        CommonFields.response = given().log().all()
+                .queryParam("group_id", CommonFields.group_id)
+                .queryParam("user_id", CommonFields.userForGroupsUserId)
+                .baseUri(Endpoints.URL)
+                .header("Content-type", "application/json")
+                .header("n-build", "4.43.0")
+                .header("n-device", "emulator")
+                .header("n-device-id", "123")
+                .header("n-os", "iOS")
+                .header("Authorization", "Bearer "+ CommonFields.accessToken)
+                .when().log().all()
+                .get(Endpoints.GET_ADD_MODERATOR_IN_GROUP_URL);
+    }
+
+    public void getAddAdminInGroup() {
+        CommonFields.response = given().log().all()
+                .queryParam("group_id", CommonFields.group_id)
+                .queryParam("user_id", CommonFields.userForGroupsUserId)
+                .baseUri(Endpoints.URL)
+                .header("Content-type", "application/json")
+                .header("n-build", "4.43.0")
+                .header("n-device", "emulator")
+                .header("n-device-id", "123")
+                .header("n-os", "iOS")
+                .header("Authorization", "Bearer "+ CommonFields.accessToken)
+                .when().log().all()
+                .get(Endpoints.GET_ADD_ADMIN_IN_GROUP_URL);
+    }
+
+    public void getRemoveAdminInGroup() {
+        CommonFields.response = given().log().all()
+                .queryParam("group_id", CommonFields.group_id)
+                .queryParam("user_id", CommonFields.userForGroupsUserId)
+                .baseUri(Endpoints.URL)
+                .header("Content-type", "application/json")
+                .header("n-build", "4.43.0")
+                .header("n-device", "emulator")
+                .header("n-device-id", "123")
+                .header("n-os", "iOS")
+                .header("Authorization", "Bearer "+ CommonFields.accessToken)
+                .when().log().all()
+                .get(Endpoints.GET_REMOVE_ADMIN_IN_GROUP_URL);
+    }
+
+    public void getBlockUserInGroup() {
+        CommonFields.response = given().log().all()
+                .queryParam("group_id", CommonFields.group_id)
+                .queryParam("user_id", CommonFields.userForGroupsUserId)
+                .baseUri(Endpoints.URL)
+                .header("Content-type", "application/json")
+                .header("n-build", "4.43.0")
+                .header("n-device", "emulator")
+                .header("n-device-id", "123")
+                .header("n-os", "iOS")
+                .header("Authorization", "Bearer "+ CommonFields.accessToken)
+                .when().log().all()
+                .get(Endpoints.GET_BLOCK_USER_IN_GROUP_URL);
+    }
+
+    public void getUnblockUserInGroup() {
+        CommonFields.response = given().log().all()
+                .queryParam("group_id", CommonFields.group_id)
+                .queryParam("user_id", CommonFields.userForGroupsUserId)
+                .baseUri(Endpoints.URL)
+                .header("Content-type", "application/json")
+                .header("n-build", "4.43.0")
+                .header("n-device", "emulator")
+                .header("n-device-id", "123")
+                .header("n-os", "iOS")
+                .header("Authorization", "Bearer "+ CommonFields.accessToken)
+                .when().log().all()
+                .get(Endpoints.GET_UNBLOCK_USER_IN_GROUP_URL);
+    }
+
+    public void getUnblockAllUsersInGroup() {
+        CommonFields.response = given().log().all()
+                .queryParam("group_id", CommonFields.group_id)
+                .baseUri(Endpoints.URL)
+                .header("Content-type", "application/json")
+                .header("n-build", "4.43.0")
+                .header("n-device", "emulator")
+                .header("n-device-id", "123")
+                .header("n-os", "iOS")
+                .header("Authorization", "Bearer "+ CommonFields.accessToken)
+                .when().log().all()
+                .get(Endpoints.GET_UNBLOCK_ALL_USERS_IN_GROUP_URL);
+    }
+
+    public void getApproveUser() {
+        CommonFields.response = given().log().all()
+                .queryParam("group_id", CommonFields.group_id)
+                .queryParam("user_id", CommonFields.userForGroupsUserId)
+                .baseUri(Endpoints.URL)
+                .header("Content-type", "application/json")
+                .header("n-build", "4.43.0")
+                .header("n-device", "emulator")
+                .header("n-device-id", "123")
+                .header("n-os", "iOS")
+                .header("Authorization", "Bearer "+ CommonFields.accessToken)
+                .when().log().all()
+                .get(Endpoints.GET_APPROVE_USER_URL);
+    }
+
+    public void getDeclineUser() {
+        CommonFields.response = given().log().all()
+                .queryParam("group_id", CommonFields.group_id)
+                .queryParam("user_id", CommonFields.userForGroupsUserId)
+                .baseUri(Endpoints.URL)
+                .header("Content-type", "application/json")
+                .header("n-build", "4.43.0")
+                .header("n-device", "emulator")
+                .header("n-device-id", "123")
+                .header("n-os", "iOS")
+                .header("Authorization", "Bearer "+ CommonFields.accessToken)
+                .when().log().all()
+                .get(Endpoints.GET_DECLINE_USER_URL);
+    }
 
 
 }
