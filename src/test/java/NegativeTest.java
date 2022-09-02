@@ -5,13 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class NegativeTest {
-
-    Autentication autentication = new Autentication();
-    Users users = new Users();
-    Posts posts = new Posts();
-    PrivacyAndNotificationsSettings privacyAndNotificationsSettings = new PrivacyAndNotificationsSettings();
-
+public class NegativeTest extends Initialization {
 
     @Test
     @DisplayName("При запросе профиля по несущесвующему id возвращаетcя статус код отличный от 200")

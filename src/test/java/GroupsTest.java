@@ -8,10 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class GroupsTest {
-
-    Autentication autentication = new Autentication();
-    Groups groups = new Groups();
+public class GroupsTest extends Initialization {
 
     @Before
     public void autorise() {

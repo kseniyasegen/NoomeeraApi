@@ -1,3 +1,4 @@
+import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -117,7 +118,7 @@ public class Posts {
                 .queryParam("file", "")
                 .queryParam("upload_id", "")
                 .queryParam("media", "")
-                .queryParam("text", "Это пост через автотест")
+                .queryParam("text", "Это пост через автотест" + RandomStringUtils.randomAlphabetic(3))
                 .queryParam("privacy", 0)   // 0 - public (default), 1 - private
                 .queryParam("gps_x", "")
                 .queryParam("gps_y", "")
