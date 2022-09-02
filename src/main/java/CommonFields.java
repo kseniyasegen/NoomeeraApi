@@ -8,6 +8,11 @@ public class CommonFields {
     public static String accessToken;
     public static int group_id;
     public static int groupIdForLink;
+    //id уведомления
+    public static String eventId;
+    //id группыы уведомлений
+    public static String eventGroupId;
+    public static boolean eventIsGroup;
     public static final String emailAutomationApi1 = "automationapi1@testmail.test";
     public static final String emailAutomationApi2 = "automationapi2@testmail.test";
     public static final String emailRandom = RandomStringUtils.randomAlphabetic(10)+"@testmail.test";

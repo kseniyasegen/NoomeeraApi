@@ -8,10 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class PostsTest {
-
-    Autentication autentication = new Autentication();
-    Posts posts = new Posts();
+public class PostsTest extends Initialization {
 
     @Before
     public void autorise() {

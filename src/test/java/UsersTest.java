@@ -16,10 +16,7 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 
 @FixMethodOrder(MethodSorters.JVM)
-public class UsersTest {
-
-    Autentication autentication = new Autentication();
-    Users users = new Users();
+public class UsersTest extends Initialization {
 
     @Before
     public void autorise() {

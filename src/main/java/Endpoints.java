@@ -174,13 +174,35 @@ public class Endpoints {
     public static final String GET_GROUPED_EVENTS_URL = URL + "/v2/users/events";
     public static final String GET_EXPANDED_EVENTS_URL = URL + "/v2/users/events/expand";
     public static final String DELETE_GROUP_EVENTS_URL = URL + "/v2/users/events";
-    public static final String DELETE_EVENT_URL = URL + "/v2/users/events/";
-    public static final String DELETE_ALL_EVENTS_URL = URL + "/v2/users/events/";
-    public static final String SET_AS_READ_GROUP_EVENTS_URL = URL + "/v2/users/events/as_read";
-    public static final String SET_AS_READ_EVENT_URL = URL + "/v2/users/events/as_read";
+    public static final String DELETE_EVENT_URL = URL + "/v2/users/events";
+    public static final String DELETE_ALL_EVENTS_URL = URL + "/v2/users/events";
+    public static final String PATCH_SET_AS_READ_GROUP_EVENTS_URL = URL + "/v2/users/events/as_read";
+    public static final String PATCH_SET_AS_READ_EVENT_URL = URL + "/v2/users/events/as_read";
+    public static final String PATCH_SET_ALL_EVENTS_AS_READ_URL = URL + "/v2/users/events/as_read";
+    public static final String PATCH_SET_AS_NOT_NEW_GROUP_EVENTS_URL = URL + "/v2/users/events/as_not_new";
+    public static final String PATCH_SET_ARRAY_OF_EVENTS_AS_NOT_NEW_URL = URL + "/v2/users/events/as_not_new";
+    public static final String PATCH_SET_EVENT_AS_NOT_NEW_URL = URL + "/v2/users/events/as_not_new";
+    public static final String PATCH_SET_ALL_EVENTS_AS_NOT_NEW_URL = URL + "/v2/users/events/as_not_new";
 
-    Set as read event
-    PATCH
+    //--MAP
+    public static final String POST_ADD_EVENT_ON_MAP_URL = URL + "/map/add_map_event";
+    public static final String GET_COMMENTS_OF_EVENT_URL = URL + "/map/get_map_event_comments";
+    public static final String GET_TYPES_OF_EVENTS_URL = URL + "/map/get_event_types";
+    public static final String GET_ADD_COMMENT_AT_EVENT_URL = URL + "/map/add_map_event_comment";
+    public static final String POST_DELETE_MAP_EVENT_URL = URL + "/map/delete_map_event";
+    public static final String POST_DELETE_COMMENT_MAP_EVENT_URL = URL + "/map/delete_map_event_comment";
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

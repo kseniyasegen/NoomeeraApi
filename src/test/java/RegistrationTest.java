@@ -8,11 +8,7 @@ import java.text.ParseException;
 
 import static org.junit.Assert.assertEquals;
 
-public class RegistrationTest {
-
-    Autentication autentication = new Autentication();
-    Registration registration = new Registration();
-    Users users = new Users();
+public class RegistrationTest extends Initialization {
 
     @Before
     public void autorise() {

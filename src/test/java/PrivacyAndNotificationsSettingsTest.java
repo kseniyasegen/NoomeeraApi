@@ -10,10 +10,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
-public class PrivacyAndNotificationsSettingsTest {
-
-    Autentication autentication = new Autentication();
-    PrivacyAndNotificationsSettings privacyAndNotificationsSettings = new PrivacyAndNotificationsSettings();
+public class PrivacyAndNotificationsSettingsTest extends Initialization {
 
     @Before
     public void autorise() {
