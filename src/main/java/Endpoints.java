@@ -185,12 +185,16 @@ public class Endpoints {
     public static final String PATCH_SET_ALL_EVENTS_AS_NOT_NEW_URL = URL + "/v2/users/events/as_not_new";
 
     //--MAP
-    public static final String POST_ADD_EVENT_ON_MAP_URL = URL + "/map/add_map_event";
-    public static final String GET_COMMENTS_OF_EVENT_URL = URL + "/map/get_map_event_comments";
-    public static final String GET_TYPES_OF_EVENTS_URL = URL + "/map/get_event_types";
-    public static final String GET_ADD_COMMENT_AT_EVENT_URL = URL + "/map/add_map_event_comment";
-    public static final String POST_DELETE_MAP_EVENT_URL = URL + "/map/delete_map_event";
-    public static final String POST_DELETE_COMMENT_MAP_EVENT_URL = URL + "/map/delete_map_event_comment";
+  //  public static final String POST_ADD_EVENT_ON_MAP_URL = URL + "/map/add_map_event";
+  //  public static final String GET_COMMENTS_OF_EVENT_URL = URL + "/map/get_map_event_comments";
+ //   public static final String GET_TYPES_OF_EVENTS_URL = URL + "/map/get_event_types";
+ //   public static final String GET_ADD_COMMENT_AT_EVENT_URL = URL + "/map/add_map_event_comment";
+ //   public static final String POST_DELETE_MAP_EVENT_URL = URL + "/map/delete_map_event";
+   // public static final String POST_DELETE_COMMENT_MAP_EVENT_URL = URL + "/map/delete_map_event_comment";
+   // public static final String POST_ADD_COMMENT_AT_EVENT_URL = URL + "/request/map/add_map_event_comment";
+   // public static final String GET_REQUEST_COMMENTS_OF_EVENT_URL = URL + "/request/map/get_map_event_comments";
+   // public static final String GET_MAP_OBJECTS_URL = URL + "/request/map/get_map_objects";
+
 
 
 
